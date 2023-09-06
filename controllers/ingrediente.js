@@ -7,6 +7,8 @@ export class IngredienteController {
     }
     static async deleteStock0(req, res) {
     }
+    static async getCaro(req, res) {
+    }
     static async incrementarStock(req, res) {
     }
     static async getClasico(req, res) {
