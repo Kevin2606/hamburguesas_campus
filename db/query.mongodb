@@ -297,3 +297,29 @@ db.hamburguesas.find().sort({precio:1}).pretty()
 db.ingredientes.find({precio:{$gte:2,$lte:5}}).pretty()
 // 22. Actualizar la descripción del "Pan" a "Pan fresco y crujiente" - **INGREDIENTES**
 db.ingredientes.updateOne({nombre:"Pan"},{$set:{descripcion:"Pan fresco y crujiente"}})
+// 23. Encontrar todas las **hamburguesas** que contienen "Tomate" o "Lechuga" como ingredientes -- TODO: REFERENCIA
+db.hamburguesas.find({"list_ingred.id_ingrediente":{$in:[db.ingredientes.findOne({nombre:"Tomate"})._id,db.ingredientes.findOne({nombre:"Lechuga"})._id]}}).pretty()
+// 24. Listar todos los **chefs** excepto "ChefA"
+db.chefs.find({nombre:{$ne:"ChefA"}}).pretty()
+// 25. Incrementar en $2 el precio de todas las **hamburguesas** de la categoría "Gourmet"
+db.hamburguesas.updateMany({"categoria.nombre":"Gourmet"},{$inc:{precio:2}})
+// 26. Listar todos los **ingredientes** en orden alfabético
+db.ingredientes.find().sort({nombre:1}).pretty()
+// 27. Encontrar la **hamburguesa** más cara
+db.hamburguesas.find().sort({precio:-1}).limit(1)
+// 28. Agregar "Pepinillos" a todas las **hamburguesas** de la categoría "Clásica" -- TODO: REFERENCIA
+db.hamburguesas.updateMany({"categoria.nombre":"Clásica"},{$push:{list_ingred:{id_ingrediente:db.ingredientes.findOne({nombre:"Pepinillos"})._id,cantidad:1}}})
+// 29. Eliminar todos los **chefs** que tienen una especialidad en "Cocina Vegetariana"
+db.chefs.deleteMany({especialidad:"Cocina Vegetariana"})
+// 30. Encontrar todas las **hamburguesas** que contienen exactamente 7 ingredientes
+db.hamburguesas.find({$where:"this.list_ingred.length==7"}).pretty()
+// 31. Encontrar la **hamburguesa** más cara que fue preparada por un chef especializado en "Gourmet" -- TODO: REFERENCIA
+db.hamburguesas.find({"categoria.nombre":"Gourmet",id_chef:db.chefs.findOne({especialidad:"Cocina Gourmet"})._id}).sort({precio:-1}).limit(1)
+// 32. Listar todos los ingredientes junto con el número de **hamburguesas** que los contienen
+db.hamburguesas.aggregate([{$unwind:"$list_ingred"},{$group:{_id:"$list_ingred.id_ingrediente",nombre:{$first:"$list_ingred.id_ingrediente"},cantidad:{$sum:1}}}])
+// 33. Listar los chefs junto con el número de **hamburguesas** que han preparado
+db.hamburguesas.aggregate([{$group:{_id:"$id_chef",nombre:{$first:"$id_chef"},cantidad:{$sum:1}}}])
+// 34. Encuentra la categoría con la mayor cantidad de **hamburguesas**
+db.hamburguesas.aggregate([{$group:{_id:"$categoria",nombre:{$first:"$categoria.nombre"},cantidad:{$sum:1}}},{$sort:{cantidad:-1}},{$limit:1}])
+// 35. Listar todos los chefs y el costo total de ingredientes de todas las **hamburguesas** que han preparado
+
