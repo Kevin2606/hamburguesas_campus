@@ -1,4 +1,5 @@
 import connect from "../db/connectDB.js";
+const dbHamburguesas = (await connect()).db().collection("hamburguesas");
 const db = (await connect()).db().collection("ingredientes");
 
 /*
@@ -29,8 +30,8 @@ db.ingredientes.updateOne({nombre:"Pan"},{$set:{descripcion:"Pan fresco y crujie
 26. Listar todos los **ingredientes** en orden alfabético
 db.ingredientes.find().sort({nombre:1}).pretty()
 
-36. Encontrar todos los **ingredientes** que no están en ninguna hamburguesa
-db.ingredientes.find({hamburguesa:{$exists:false}}).pretty()
+36. TODO: Encontrar todos los **ingredientes** que no están en ninguna hamburguesa
+db.hamburguesas.aggregate([{$unwind:"$list_ingred"},{$group:{_id:"$list_ingred.id_ingrediente",nombre:{$first:"$list_ingred.id_ingrediente"}}}])
 
 */
 
@@ -72,7 +73,10 @@ export class IngredienteModel {
         return result;
     }
     static async getNoHamburguesa() {
-        const result = await db.find({ hamburguesa: { $exists: false } }).toArray();
+        const result = await dbHamburguesas.aggregate([
+            { $unwind: "$list_ingred" },
+            { $group: { _id: "$list_ingred.id_ingrediente", nombre: { $first: "$list_ingred.id_ingrediente" } } },
+        ]);
         return result;
     }
 }

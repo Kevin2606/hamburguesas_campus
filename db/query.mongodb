@@ -41,7 +41,7 @@
 40. Listar los chefs y la **hamburguesa** más cara que han preparado
 */
 
-db.use("filtroMongo_KevinAndresGallardoRobles");
+use("filtroMongo_KevinAndresGallardoRobles");
 /*
 id
 nombre
@@ -86,7 +86,7 @@ db.createCollection("ingredientes", {
                     bsonType: "string",
                 },
                 precio: {
-                    bsonType: "int",
+                    bsonType: "number",
                 },
                 stock: {
                     bsonType: "int",
@@ -147,7 +147,7 @@ db.createCollection("hamburguesas", {
                     }
                 },
                 precio: {
-                    bsonType: "int",
+                    bsonType: "number",
                 }
             }
         }
@@ -166,27 +166,27 @@ db.chefs.insertMany([
 // INGREDIENTES
 // ------------------------------
 db.ingredientes.insertMany([
-    { nombre: "Pan", descripcion: "Pan blanco", precio: 1, stock: 1000 },
-    { nombre: "Pan integral", descripcion: "Pan integral", precio: 1.5, stock: 1000 },
-    { nombre: "Queso cheddar", descripcion: "Queso cheddar", precio: 2, stock: 1000 },
+    { nombre: "Pan", descripcion: "Pan blanco", precio: 1, stock: 330 },
+    { nombre: "Pan integral", descripcion: "Pan integral", precio: 1.5, stock: 243 },
+    { nombre: "Queso cheddar", descripcion: "Queso cheddar", precio: 2, stock: 666 },
     { nombre: "Queso mozzarella", descripcion: "Queso mozzarella", precio: 2, stock: 1000 },
     { nombre: "Queso azul", descripcion: "Queso azul", precio: 2, stock: 1000 },
     { nombre: "Queso parmesano", descripcion: "Queso parmesano", precio: 2, stock: 1000 },
-    { nombre: "Queso de cabra", descripcion: "Queso de cabra", precio: 2, stock: 1000 },
+    { nombre: "Queso de cabra", descripcion: "Queso de cabra", precio: 2, stock: 111 },
     { nombre: "Queso americano", descripcion: "Queso americano", precio: 2, stock: 1000 },
     { nombre: "Queso suizo", descripcion: "Queso suizo", precio: 2, stock: 1000 },
-    { nombre: "Carne de res", descripcion: "Carne de res", precio: 3, stock: 1000 },
-    { nombre: "Carne de pollo", descripcion: "Carne de pollo", precio: 3, stock: 1000 },
-    { nombre: "Carne de cerdo", descripcion: "Carne de cerdo", precio: 3, stock: 1000 },
-    { nombre: "Carne de cordero", descripcion: "Carne de cordero", precio: 3, stock: 1000 },
-    { nombre: "Arepa", descripcion: "Arepa", precio: 1, stock: 1000 },
-    { nombre: "Lechuga", descripcion: "Lechuga", precio: 1, stock: 1000 },
-    { nombre: "Tomate", descripcion: "Tomate", precio: 1, stock: 1000 },
-    { nombre: "Cebolla", descripcion: "Cebolla", precio: 1, stock: 1000 },
-    { nombre: "Pepinillos", descripcion: "Pepinillos", precio: 1, stock: 1000 },
-    { nombre: "Tocino", descripcion: "Tocino", precio: 1, stock: 1000 },
-    { nombre: "Huevo", descripcion: "Huevo", precio: 1, stock: 1000 },
-    { nombre: "Aguacate", descripcion: "Aguacate", precio: 1, stock: 1000 },
+    { nombre: "Carne de res", descripcion: "Carne de res", precio: 3, stock: 434 },
+    { nombre: "Carne de pollo", descripcion: "Carne de pollo", precio: 3, stock: 5666 },
+    { nombre: "Carne de cerdo", descripcion: "Carne de cerdo", precio: 3, stock: 344 },
+    { nombre: "Carne de cordero", descripcion: "Carne de cordero", precio: 3, stock: 323 },
+    { nombre: "Arepa", descripcion: "Arepa", precio: 1, stock: 0 },
+    { nombre: "Lechuga", descripcion: "Lechuga", precio: 1, stock: 2342 },
+    { nombre: "Tomate", descripcion: "Tomate", precio: 1, stock: 21 },
+    { nombre: "Cebolla", descripcion: "Cebolla", precio: 1, stock: 3333 },
+    { nombre: "Pepinillos", descripcion: "Pepinillos", precio: 1, stock: 444 },
+    { nombre: "Tocino", descripcion: "Tocino", precio: 1, stock: 23 },
+    { nombre: "Huevo", descripcion: "Huevo", precio: 1, stock: 322 },
+    { nombre: "Aguacate", descripcion: "Aguacate", precio: 1, stock: 111 },
 ]);
 // ------------------------------
 // HAMBURGUESAS
@@ -244,10 +244,8 @@ db.hamburguesas.insertMany([
             { id_ingrediente: db.ingredientes.findOne({ nombre: "Tocino" })._id, cantidad: 1 },
             { id_ingrediente: db.ingredientes.findOne({ nombre: "Huevo" })._id, cantidad: 1 },
         ],
-
+        precio: 10
     }
-
-
 ]);
 // ------------------------------
 
@@ -288,7 +286,9 @@ db.chefs.count()
 // 17. Encontrar todas las **categorías** que contienen la palabra "gourmet" en su descripción -- TODO
 db.hamburguesas.aggregate([{$group:{_id:"$categoria",nombre:{$first:"$categoria.nombre"},descripcion:{$first:"$categoria.descripcion"}}},{$match:{descripcion:{$regex:"gourmet"}}}])
 // 18. Eliminar las **hamburguesas** que contienen menos de 5 ingredientes
-db.hamburguesas.deleteMany({$where:"this.list_ingred.length<5"})
+//db.hamburguesas.deleteMany({$where:"this.list_ingred.length<5"})
+// 18. Eliminar las **hamburguesas** que contienen menos de 5 ingredientes -- Sin $where
+db.hamburguesas.deleteMany({"list_ingred.4":{$exists:false}})
 // 19. Agregar un nuevo **chef** a la colección con una especialidad en "Cocina Asiática"
 db.chefs.insertOne({nombre:"ChefD",especialidad:"Cocina Asiática"})
 // 20. Listar las **hamburguesas** en orden ascendente según su precio
@@ -312,7 +312,9 @@ db.hamburguesas.updateMany({"categoria.nombre":"Clásica"},{$push:{list_ingred:{
 // 29. Eliminar todos los **chefs** que tienen una especialidad en "Cocina Vegetariana"
 db.chefs.deleteMany({especialidad:"Cocina Vegetariana"})
 // 30. Encontrar todas las **hamburguesas** que contienen exactamente 7 ingredientes
-db.hamburguesas.find({$where:"this.list_ingred.length==7"}).pretty()
+//db.hamburguesas.find({$where:"this.list_ingred.length==7"}).pretty()
+// 30. Encontrar todas las **hamburguesas** que contienen exactamente 7 ingredientes -- Sin $where
+db.hamburguesas.find({"list_ingred.6":{$exists:true},"list_ingred.7":{$exists:false}}).pretty()
 // 31. Encontrar la **hamburguesa** más cara que fue preparada por un chef especializado en "Gourmet" -- TODO: REFERENCIA
 db.hamburguesas.find({"categoria.nombre":"Gourmet",id_chef:db.chefs.findOne({especialidad:"Cocina Gourmet"})._id}).sort({precio:-1}).limit(1)
 // 32. Listar todos los ingredientes junto con el número de **hamburguesas** que los contienen
@@ -323,8 +325,9 @@ db.hamburguesas.aggregate([{$group:{_id:"$id_chef",nombre:{$first:"$id_chef"},ca
 db.hamburguesas.aggregate([{$group:{_id:"$categoria",nombre:{$first:"$categoria.nombre"},cantidad:{$sum:1}}},{$sort:{cantidad:-1}},{$limit:1}])
 // 35. Listar todos los chefs y el costo total de ingredientes de todas las **hamburguesas** que han preparado
 db.hamburguesas.aggregate([{$unwind:"$list_ingred"},{$group:{_id:"$id_chef",nombre:{$first:"$id_chef"},costo:{$sum:"$list_ingred.cantidad"}}}])
-// 36. Encontrar todos los **ingredientes** que no están en ninguna hamburguesa
-db.ingredientes.find({hamburguesa:{$exists:false}}).pretty()
+// 36. Encontrar todos los ingredientes que no están en ninguna **hamburguesa**
+use("filtroMongo_KevinAndresGallardoRobles");
+db.hamburguesas.aggregate([{$unwind:"$list_ingred"},{$group:{_id:"$list_ingred.id_ingrediente",nombre:{$first:"$list_ingred.id_ingrediente"}}}])
 // 37. Listar todas las **hamburguesas** con su descripción de categoría
 db.hamburguesas.aggregate([{$group:{_id:"$categoria",nombre:{$first:"$nombre"},descripcion:{$first:"$categoria.descripcion"}}}])
 // 38. Encuentra el chef que ha preparado **hamburguesas** con el mayor número de ingredientes en total

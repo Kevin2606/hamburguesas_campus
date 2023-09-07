@@ -6,7 +6,7 @@ export class HamburguesaController {
             const vegetariana = await HamburguesaModel.getVegetariana();
             res.status(200).json(vegetariana);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(500).json({ Error: error.message });
         }
     }
     static async getChef(req, res) {
@@ -14,7 +14,7 @@ export class HamburguesaController {
             const chef = await HamburguesaModel.getChef();
             res.status(200).json(chef);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(500).json({ Error: error.message });
         }
     }
     static async getCategorias(req, res) {
@@ -22,7 +22,7 @@ export class HamburguesaController {
             const categorias = await HamburguesaModel.getCategorias();
             res.status(200).json(categorias);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(500).json({ Error: error.message });
         }
     }
     static async postIngrediente(req, res) {
@@ -30,7 +30,7 @@ export class HamburguesaController {
             const result = await HamburguesaModel.postIngrediente();
             res.status(200).json(result);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(500).json({ Error: error.message });
         }
     }
     static async getPanIntegral(req, res) {
@@ -38,7 +38,7 @@ export class HamburguesaController {
             const panIntegral = await HamburguesaModel.getPanIntegral();
             res.status(200).json(panIntegral);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(500).json({ Error: error.message });
         }
     }
     static async getNoCheddar(req, res) {
@@ -46,7 +46,7 @@ export class HamburguesaController {
             const noCheddar = await HamburguesaModel.getNoCheddar();
             res.status(200).json(noCheddar);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(500).json({ Error: error.message });
         }
     }
     static async getPrecioMenor9(req, res) {
@@ -54,7 +54,7 @@ export class HamburguesaController {
             const precioMenor9 = await HamburguesaModel.getPrecioMenor9();
             res.status(200).json(precioMenor9);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(500).json({ Error: error.message });
         }
     }
     static async getGourmet(req, res) {
@@ -62,7 +62,7 @@ export class HamburguesaController {
             const gourmet = await HamburguesaModel.getGourmet();
             res.status(200).json(gourmet);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(500).json({ Error: error.message });
         }
     }
     static async deleteMenos5Ingredientes(req, res) {
@@ -70,7 +70,7 @@ export class HamburguesaController {
             const result = await HamburguesaModel.deleteMenos5Ingredientes();
             res.status(200).json(result);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(500).json({ Error: error.message });
         }
     }
     static async getListarPrecioAscendente(req, res) {
@@ -78,7 +78,7 @@ export class HamburguesaController {
             const listarPrecioAscendente = await HamburguesaModel.getListarPrecioAscendente();
             res.status(200).json(listarPrecioAscendente);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(500).json({ Error: error.message });
         }
     }
     static async getTomateLechuga(req, res) {
@@ -86,7 +86,7 @@ export class HamburguesaController {
             const tomateLechuga = await HamburguesaModel.getTomateLechuga();
             res.status(200).json(tomateLechuga);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(500).json({ Error: error.message });
         }
     }
     static async patchIncrementarPrecioGourmet(req, res) {
@@ -94,7 +94,7 @@ export class HamburguesaController {
             const result = await HamburguesaModel.patchIncrementarPrecioGourmet();
             res.status(200).json(result);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(500).json({ Error: error.message });
         }
     }
     static async getCara(req, res) {
@@ -102,7 +102,7 @@ export class HamburguesaController {
             const cara = await HamburguesaModel.getCara();
             res.status(200).json(cara);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(500).json({ Error: error.message });
         }
     }
     static async patchPepinillos(req, res) {
@@ -110,7 +110,7 @@ export class HamburguesaController {
             const result = await HamburguesaModel.patchPepinillos();
             res.status(200).json(result);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(500).json({ Error: error.message });
         }
     }
     static async get7Ingredientes(req, res) {
@@ -118,7 +118,7 @@ export class HamburguesaController {
             const ingredientes = await HamburguesaModel.get7Ingredientes();
             res.status(200).json(ingredientes);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(500).json({ Error: error.message });
         }
     }
     static async getCaraGourmet(req, res) {
@@ -126,7 +126,7 @@ export class HamburguesaController {
             const caraGourmet = await HamburguesaModel.getCaraGourmet();
             res.status(200).json(caraGourmet);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(400).json({ Error: error.message });
         }
     }
     static async getIngredientes(req, res) {
@@ -134,7 +134,7 @@ export class HamburguesaController {
             const ingredientes = await HamburguesaModel.getIngredientes();
             res.status(200).json(ingredientes);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(500).json({ Error: error.message });
         }
     }
     static async getChefs(req, res) {
@@ -142,7 +142,7 @@ export class HamburguesaController {
             const chefs = await HamburguesaModel.getChefs();
             res.status(200).json(chefs);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(500).json({ Error: error.message });
         }
     }
     static async getMayorCantidad(req, res) {
@@ -150,7 +150,7 @@ export class HamburguesaController {
             const mayorCantidad = await HamburguesaModel.getMayorCantidad();
             res.status(200).json(mayorCantidad);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(500).json({ Error: error.message });
         }
     }
     static async getCostoTotal(req, res) {
@@ -158,7 +158,7 @@ export class HamburguesaController {
             const costoTotal = await HamburguesaModel.getCostoTotal();
             res.status(200).json(costoTotal);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(500).json({ Error: error.message });
         }
     }
     static async getDescripcion(req, res) {
@@ -166,7 +166,7 @@ export class HamburguesaController {
             const descripcion = await HamburguesaModel.getDescripcion();
             res.status(200).json(descripcion);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(500).json({ Error: error.message });
         }
     }
     static async getChefMasIngredientes(req, res) {
@@ -174,7 +174,7 @@ export class HamburguesaController {
             const chefMasIngredientes = await HamburguesaModel.getChefMasIngredientes();
             res.status(200).json(chefMasIngredientes);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(500).json({ Error: error.message });
         }
     }
     static async getPrecioPromedio(req, res) {
@@ -182,7 +182,7 @@ export class HamburguesaController {
             const precioPromedio = await HamburguesaModel.getPrecioPromedio();
             res.status(200).json(precioPromedio);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(500).json({ Error: error.message });
         }
     }
     static async getChefCara(req, res) {
@@ -190,7 +190,7 @@ export class HamburguesaController {
             const chefCara = await HamburguesaModel.getChefCara();
             res.status(200).json(chefCara);
         } catch (error) {
-            res.status(500).json({ error });
+            res.status(500).json({ Error: error.message });
         }
     }
 }

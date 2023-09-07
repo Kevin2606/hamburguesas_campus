@@ -1,5 +1,8 @@
 import connect from "../db/connectDB.js";
-const db = (await connect()).db().collection("hamburguesas");
+const dbSinCollection = (await connect()).db();
+const db = dbSinCollection.collection("hamburguesas");
+const dbIngredientes = dbSinCollection.collection("ingredientes");
+const dbChefs = dbSinCollection.collection("chefs");
 /*
 2. Encontrar todas las **hamburguesas** de la categoría "Vegetariana"
 db.hamburguesas.find({"categoria.nombre":"Vegetariana"}).pretty()
@@ -26,7 +29,7 @@ db.hamburguesas.find({precio:{$lte:9}}).pretty()
 db.hamburguesas.aggregate([{$group:{_id:"$categoria",nombre:{$first:"$categoria.nombre"},descripcion:{$first:"$categoria.descripcion"}}},{$match:{descripcion:{$regex:"gourmet"}}}])
 
 18. Eliminar las **hamburguesas** que contienen menos de 5 ingredientes
-db.hamburguesas.deleteMany({$where:"this.list_ingred.length<5"})
+db.hamburguesas.deleteMany({"list_ingred.4":{$exists:false}})
 
 20. Listar las **hamburguesas** en orden ascendente según su precio
 db.hamburguesas.find().sort({precio:1}).pretty()
@@ -44,7 +47,7 @@ db.hamburguesas.find().sort({precio:-1}).limit(1)
 db.hamburguesas.updateMany({"categoria.nombre":"Clásica"},{$push:{list_ingred:{id_ingrediente:db.ingredientes.findOne({nombre:"Pepinillos"})._id,cantidad:1}}})
 
 30. Encontrar todas las **hamburguesas** que contienen exactamente 7 ingredientes
-db.hamburguesas.find({$where:"this.list_ingred.length==7"}).pretty()
+db.hamburguesas.find({"list_ingred.6":{$exists:true},"list_ingred.7":{$exists:false}}).pretty()
 
 31. Encontrar la **hamburguesa** más cara que fue preparada por un chef especializado en "Gourmet"
 db.hamburguesas.find({"categoria.nombre":"Gourmet",id_chef:db.chefs.findOne({especialidad:"Cocina Gourmet"})._id}).sort({precio:-1}).limit(1)
@@ -82,23 +85,27 @@ export class HamburguesaModel {
         return result;
     }
     static async getChef() {
-        const result = await db.find({ id_chef: db.chefs.findOne({ nombre: "ChefB" })._id }).toArray();
-        return result;
+        try {
+            const result = await db.find({ id_chef: (await dbChefs.findOne({ nombre: "ChefB" }))._id }).toArray();
+            return result;
+        }catch (error) {
+            console.log(error);
+        }
     }
     static async getCategorias() {
         const result = await db.aggregate([{ $group: { _id: "$categoria", nombre: { $first: "$categoria.nombre" }, descripcion: { $first: "$categoria.descripcion" } } }]).toArray();
         return result;
     }
     static async postIngrediente() {
-        const result = await db.updateOne({ nombre: "Clásica" }, { $push: { list_ingred: { id_ingrediente: db.ingredientes.findOne({ nombre: "Pepinillos" })._id, cantidad: 1 } } });
+        const result = await db.updateOne({ nombre: "Clásica" }, { $push: { list_ingred: { id_ingrediente: (await dbIngredientes.findOne({ nombre: "Pepinillos" }))._id, cantidad: 1 } } });
         return result;
     }
     static async getPanIntegral() {
-        const result = await db.find({ "list_ingred.id_ingrediente": db.ingredientes.findOne({ nombre: "Pan integral" })._id }).toArray();
+        const result = await db.find({ "list_ingred.id_ingrediente": (await dbIngredientes.findOne({ nombre: "Pan integral" }))._id }).toArray();
         return result;
     }
     static async getNoCheddar() {
-        const result = await db.find({ "list_ingred.id_ingrediente": { $ne: db.ingredientes.findOne({ nombre: "Queso cheddar" })._id } }).toArray();
+        const result = await db.find({ "list_ingred.id_ingrediente": { $ne: (await dbIngredientes.findOne({ nombre: "Queso cheddar" }))._id } }).toArray();
         return result;
     }
     static async getPrecioMenor9() {
@@ -110,7 +117,7 @@ export class HamburguesaModel {
         return result;
     }
     static async deleteMenos5Ingredientes() {
-        const result = await db.deleteMany({ $where: "this.list_ingred.length<5" });
+        const result = await db.deleteMany({ "list_ingred.4": { $exists: false } });
         return result;
     }
     static async getListarPrecioAscendente() {
@@ -118,7 +125,7 @@ export class HamburguesaModel {
         return result;
     }
     static async getTomateLechuga() {
-        const result = await db.find({ "list_ingred.id_ingrediente": { $in: [db.ingredientes.findOne({ nombre: "Tomate" })._id, db.ingredientes.findOne({ nombre: "Lechuga" })._id] } }).toArray();
+        const result = await db.find({ "list_ingred.id_ingrediente": { $in: [(await dbIngredientes.findOne({ nombre: "Tomate" }))._id, (await dbIngredientes.findOne({ nombre: "Lechuga" }))._id] } }).toArray();
         return result;
     }
     static async patchIncrementarPrecioGourmet() {
@@ -130,15 +137,17 @@ export class HamburguesaModel {
         return result;
     }
     static async patchPepinillos() {
-        const result = await db.updateMany({ "categoria.nombre": "Clásica" }, { $push: { list_ingred: { id_ingrediente: db.ingredientes.findOne({ nombre: "Pepinillos" })._id, cantidad: 1 } } });
+        const result = await db.updateMany({ "categoria.nombre": "Clásica" }, { $push: { list_ingred: { id_ingrediente: (await dbIngredientes.findOne({ nombre: "Pepinillos" }))._id, cantidad: 1 } } });
         return result;
     }
     static async get7Ingredientes() {
-        const result = await db.find({ $where: "this.list_ingred.length==7" }).toArray();
+        const result = await db.find({ "list_ingred.6": { $exists: true }, "list_ingred.7": { $exists: false } }).toArray();
         return result;
     }
     static async getCaraGourmet() {
-        const result = await db.find({ "categoria.nombre": "Gourmet", id_chef: db.chefs.findOne({ especialidad: "Cocina Gourmet" })._id }).sort({ precio: -1 }).limit(1).toArray();
+        const chef = (await dbChefs.findOne({ especialidad: "Cocina Gourmet" }))
+        if (!chef) throw new Error("No existe chef con esa especialidad");
+        const result = await db.find({ "categoria.nombre": "Gourmet", id_chef: chef._id }).sort({ precio: -1 }).limit(1).toArray();
         return result;
     }
     static async getIngredientes() {
