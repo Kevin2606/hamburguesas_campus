@@ -2,86 +2,123 @@
 ### Chefs
 ### 1. Encontrar todos los **ingredientes** con stock menor a 400
 GET http://localhost:3000/chefs/especialidad
+Authorization: Bearer TOKEN
 ### 10. Cambiar la especialidad del "ChefC" a "Cocina Internacional" - **CHEFS**
 PATCH http://localhost:3000/chefs/actualizar-especialidad
+Authorization: Bearer TOKEN
 ### 16. Contar cuántos **chefs** hay en la base de datos
 GET http://localhost:3000/chefs/contar
+Authorization: Bearer TOKEN
 ### 19. Agregar un nuevo **chef** a la colección con una especialidad en "Cocina Asiática"
 POST http://localhost:3000/chefs/nuevo
+Authorization: Bearer TOKEN
 ### 24. Listar todos los **chefs** excepto "ChefA"
 GET http://localhost:3000/chefs/listar-excepto
+Authorization: Bearer TOKEN
 ### 29. Eliminar todos los **chefs** que tienen una especialidad en "Cocina Vegetariana"
 DELETE http://localhost:3000/chefs/vegetariana
 ### --------------------------------------------------------
 ### Ingredientes
 ### 1. Encontrar todos los **ingredientes** con stock menor a 400
 GET http://localhost:3000/ingredientes/stock
+Authorization: Bearer TOKEN
 ### 4. Aumentar en 1.5 el precio de todos los **ingredientes**
 GET http://localhost:3000/ingredientes/aumentar-precio
+Authorization: Bearer TOKEN
 ### 7. Eliminar todos los **ingredientes** que tengan un stock de 0
 DELETE http://localhost:3000/ingredientes/stock-0
+Authorization: Bearer TOKEN
 ### 11. Encontrar el **ingrediente** más caro
 GET http://localhost:3000/ingredientes/caro
+Authorization: Bearer TOKEN
 ### 13. Incrementar el stock de "Pan" en 100 unidades - **INGREDIENTES**
 PATCH http://localhost:3000/ingredientes/incrementar-stock
+Authorization: Bearer TOKEN
 ### 14. Encontrar todos los **ingredientes** que tienen una descripción que contiene la palabra "clásico"
 GET http://localhost:3000/ingredientes/clasico
+Authorization: Bearer TOKEN
 ### 21. Encontrar todos los **ingredientes** cuyo precio sea entre $2 y $5
 GET http://localhost:3000/ingredientes/precio
+Authorization: Bearer TOKEN
 ### 22. Actualizar la descripción del "Pan" a "Pan fresco y crujiente" - **INGREDIENTES**
 PATCH http://localhost:3000/ingredientes/actualizar-descripcion
+Authorization: Bearer TOKEN
 ### 26. Listar todos los **ingredientes** en orden alfabético
 GET http://localhost:3000/ingredientes/listar-alfabetico
+Authorization: Bearer TOKEN
 ### 36. Encontrar todos los **ingredientes** que no están en ninguna hamburguesa
 GET http://localhost:3000/ingredientes/no-hamburguesa
 ### --------------------------------------------------------
 ### Hamburguesas
 ### 2. Encontrar todas las **hamburguesas** de la categoría "Vegetariana"
 GET http://localhost:3000/hamburguesas/vegetariana
+Authorization: Bearer TOKEN
 ### 5. Encontrar todas las **hamburguesas** preparadas por "ChefB" 
 GET http://localhost:3000/hamburguesas/chef
+Authorization: Bearer TOKEN
 ### 6. Encontrar el nombre y la descripción de todas las **categorías** -- TODO
 GET http://localhost:3000/hamburguesas/categorias
+Authorization: Bearer TOKEN
 ### 8. Agregar un nuevo **ingrediente** a la hamburguesa "Clásica"
 PATCH http://localhost:3000/hamburguesas/nuevo-ingrediente
+Authorization: Bearer TOKEN
 ### 9. Encontrar todas las **hamburguesas** que contienen "Pan integral" como ingrediente
 GET http://localhost:3000/hamburguesas/pan-integral
+Authorization: Bearer TOKEN
 ### 12. Encontrar las **hamburguesas** que no contienen "Queso cheddar" como ingrediente
 GET http://localhost:3000/hamburguesas/no-cheddar
+Authorization: Bearer TOKEN
 ### 15. Listar las **hamburguesas** cuyo precio es menor o igual a $9
 GET http://localhost:3000/hamburguesas/precio-menor-9
+Authorization: Bearer TOKEN
 ### 17. Encontrar todas las **categorías** que contienen la palabra "gourmet" en su descripción -- TODO
 GET http://localhost:3000/hamburguesas/gourmet
+Authorization: Bearer TOKEN
 ### 18. Eliminar las **hamburguesas** que contienen menos de 5 ingredientes
 DELETE http://localhost:3000/hamburguesas/menos-5-ingredientes
+Authorization: Bearer TOKEN
 ### 20. Listar las **hamburguesas** en orden ascendente según su precio
 GET http://localhost:3000/hamburguesas/listar-precio-ascendente
+Authorization: Bearer TOKEN
 ### 23. Encontrar todas las **hamburguesas** que contienen "Tomate" o "Lechuga" como ingredientes
 GET http://localhost:3000/hamburguesas/tomate-lechuga
+Authorization: Bearer TOKEN
 ### 25. Incrementar en $2 el precio de todas las **hamburguesas** de la categoría "Gourmet"
 PATCH http://localhost:3000/hamburguesas/incrementar-precio-gourmet
+Authorization: Bearer TOKEN
 ### 27. Encontrar la **hamburguesa** más cara
 GET http://localhost:3000/hamburguesas/cara
+Authorization: Bearer TOKEN
 ### 28. Agregar "Pepinillos" a todas las **hamburguesas** de la categoría "Clásica"
 PATCH http://localhost:3000/hamburguesas/pepinillos
+Authorization: Bearer TOKEN
 ### 30. Encontrar todas las **hamburguesas** que contienen exactamente 7 ingredientes
 GET http://localhost:3000/hamburguesas/7-ingredientes
+Authorization: Bearer TOKEN
 ### 31. Encontrar la **hamburguesa** más cara que fue preparada por un chef especializado en "Gourmet"
 GET http://localhost:3000/hamburguesas/cara-gourmet
+Authorization: Bearer TOKEN
 ### 33. Listar los chefs junto con el número de **hamburguesas** que han preparado
 GET http://localhost:3000/hamburguesas/chefs
+Authorization: Bearer TOKEN
 ### 34. Encuentra la categoría con la mayor cantidad de **hamburguesas**
 GET http://localhost:3000/hamburguesas/mayor-cantidad
+Authorization: Bearer TOKEN
 ### 35. Listar todos los chefs y el costo total de ingredientes de todas las **hamburguesas** que han preparado
 GET http://localhost:3000/hamburguesas/costo-total
+Authorization: Bearer TOKEN
 ### 37. Listar todas las **hamburguesas** con su descripción de categoría
 GET http://localhost:3000/hamburguesas/descripcion
+Authorization: Bearer TOKEN
 ### 38. Encuentra el chef que ha preparado **hamburguesas** con el mayor número de ingredientes en total
 GET http://localhost:3000/hamburguesas/chef-mas-ingredientes
+Authorization: Bearer TOKEN
 ### 39. Encontrar el precio promedio de las **hamburguesas** en cada categoría
 GET http://localhost:3000/hamburguesas/precio-promedio
+Authorization: Bearer TOKEN
 ### 40. Listar los chefs y la **hamburguesa** más cara que han preparado
 GET http://localhost:3000/hamburguesas/chef-cara
+Authorization: Bearer TOKEN
 
 
 
