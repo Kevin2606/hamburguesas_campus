@@ -1,0 +1,13 @@
+[
+    {
+        "group": "usuario",
+        "permissions": [
+          {
+            "resource": "*",
+            "methods": "*",
+            "action": "allow"
+          }
+        ],
+        "action": "allow"
+    }
+]

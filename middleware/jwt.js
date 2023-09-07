@@ -25,9 +25,12 @@ const validarToken = async (token) => {
         );
         const { id } = jwtData.payload;
         const getUser = await db.findOne({ _id: new ObjectId(id) });
+        getUser.rol = 'usuario'
         return getUser;
     } catch (error) {
-        console.log(error);
+        if (error.code === "ERR_JWT_EXPIRED") console.log("El token ha expirado");
+        if (error.code === "ERR_JWS_INVALID") console.log("El token no es válido");
+        if (!error.code === "ERR_JWT_EXPIRED" || !error.code === "ERR_JWS_INVALID") console.log({"Error": error});
         return false;
     }
 }

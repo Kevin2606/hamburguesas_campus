@@ -1,4 +1,22 @@
 ### --------------------------------------------------------
+### login - usuario
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "username": "kevin",
+    "password": "1233456"
+}
+### register - usuario
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "username": "kevin",
+    "password": "123456"
+}
+
+### --------------------------------------------------------
 ### Chefs
 ### 1. Encontrar todos los **ingredientes** con stock menor a 400
 GET http://localhost:3000/chefs/especialidad

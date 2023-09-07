@@ -248,8 +248,28 @@ db.hamburguesas.insertMany([
     }
 ]);
 // ------------------------------
+// Usuarios
+use("filtroMongo_KevinAndresGallardoRobles")
+db.createCollection("usuarios", {
+    validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            required: ["username", "password"],
+            properties: {
+                username: {
+                    bsonType: "string",
+                },
+                password: {
+                    bsonType: "string",
+                }
+            }
+        }
+    }
+});
+db.usuarios.createIndex({ username: 1 }, { unique: true });
 
 
+// ------------------------------
 
 // 1. Encontrar todos los **ingredientes** con stock menor a 400
 db.ingredientes.find({stock:{$lt:400}}).pretty()
@@ -326,7 +346,6 @@ db.hamburguesas.aggregate([{$group:{_id:"$categoria",nombre:{$first:"$categoria.
 // 35. Listar todos los chefs y el costo total de ingredientes de todas las **hamburguesas** que han preparado
 db.hamburguesas.aggregate([{$unwind:"$list_ingred"},{$group:{_id:"$id_chef",nombre:{$first:"$id_chef"},costo:{$sum:"$list_ingred.cantidad"}}}])
 // 36. Encontrar todos los ingredientes que no están en ninguna **hamburguesa**
-use("filtroMongo_KevinAndresGallardoRobles");
 db.hamburguesas.aggregate([{$unwind:"$list_ingred"},{$group:{_id:"$list_ingred.id_ingrediente",nombre:{$first:"$list_ingred.id_ingrediente"}}}])
 // 37. Listar todas las **hamburguesas** con su descripción de categoría
 db.hamburguesas.aggregate([{$group:{_id:"$categoria",nombre:{$first:"$nombre"},descripcion:{$first:"$categoria.descripcion"}}}])
